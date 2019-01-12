@@ -9,6 +9,14 @@
     "react/jsx-indent": 0,
     "react/jsx-tag-spacing": 0,
     "react/prefer-stateless-function": 0,
-    "padded-blocks": 0
+    "padded-blocks": 0,
+    "linebreak-style": 0,
+    "indent": 0,
+    "arrow-parens": 0,
+    "no-console": 0,
+    "import/prefer-default-export": 0,
+    "class-methods-use-this": 0,
+    "react/destructuring-assignment": 0,
+    "max-len": 0
   }
 }

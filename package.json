@@ -34,7 +34,8 @@
   },
   "dependencies": {
     "react": "^16.7.0",
-    "react-dom": "^16.7.0"
+    "react-dom": "^16.7.0",
+    "rxjs": "^6.3.3"
   },
   "keywords": []
 }
