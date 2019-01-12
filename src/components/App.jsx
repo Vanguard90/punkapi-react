@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'reactstrap';
 import punkApiService from '../service/punkapi-service';
 import BeerList from './BeerList';
 
@@ -41,16 +42,20 @@ class App extends React.Component {
 
   render() {
     return (
-      <main className="main-container">
-        <div className="content-area">
-        <h1> PunkAPI Beer Service </h1>
-          <button type="button" onClick={this.getRandomBeerFn}> BEER ME! </button>
+      <main className="col">
+        <div className="col-sm-12">
+          <div className="text-center">
+            <h1>PunkAPI Beer Service</h1>
+            <Button type="button" color="primary" onClick={this.getRandomBeerFn}> BEER ME! </Button>
+          </div>
         </div>
-        <div className="beers-list">
-        <BeerList/>
+        <div className="d-flex flex-lg-row flex-md-column justify-content-around align-content-stretch align-items-stretch">
+        <div className="d-flex flex-fill justify-content-center">
+          <BeerList displaysFavourite={false} beers={this.state.allBeers} />
         </div>
-        <div className="beers-favourite-list">
-      <BeerList/>
+        <div className="d-flex flex-fill justify-content-center">
+          <BeerList displaysFavourite/>
+        </div>
         </div>
       </main>
     );
