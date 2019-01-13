@@ -25,16 +25,13 @@ class BeerList extends React.Component {
           </ListGroupItem>
         );
       });
-    } else {
-      return null;
     }
   }
 
   render() {
-    const listHeading = this.props.displaysFavourite ? 'Favourite beers' : 'Beers';
-    return (
+      return (
       <div className="text-center">
-        <h3>{listHeading}</h3>
+        <h3>Beers</h3>
         <ListGroup>
           {
             this.renderBeerList()

@@ -7,7 +7,7 @@ import {
 } from 'reactstrap';
 
 class BeerListFavourite extends React.Component {
-  // A component that displays beers in a list format
+  // A component that displays favourite beers in a list format
 
   constructor(props) {
     super(props);
@@ -25,8 +25,6 @@ class BeerListFavourite extends React.Component {
           </ListGroupItem>
         );
       });
-    } else {
-      return null;
     }
   }
 

@@ -34,11 +34,12 @@ class App extends React.Component {
 
   getRandomBeerFn() {
     punkApiService.getRandomBeer().subscribe(randomBeer => {
+      console.log(!this.isBeerInArray(randomBeer, this.state.allBeers));
       if (this.state.allBeers.length < 10 && !this.isBeerInArray(randomBeer, this.state.allBeers)) {
         this.setState(prevState => ({ allBeers: [...prevState.allBeers, randomBeer] }));
-        if (this.state.allBeers.length < 10) {
-          this.getRandomBeerFn();
-        }
+      }
+      if (this.state.allBeers.length < 10) {
+        this.getRandomBeerFn();
       }
       // This whole structure above is to make sure you don't get more than 10 beers
       // and there are no dublicate beers - CHECK AGAIN
@@ -48,14 +49,17 @@ class App extends React.Component {
   }
 
   isBeerInArray(beerToCheck, arrayToCheck) {
+    let result = false;
     arrayToCheck.forEach(
       singleBeerInState => {
         if (beerToCheck.id === singleBeerInState.id) {
-          return true;
+          console.log(beerToCheck);
+          console.log(singleBeerInState);
+          result = true;
         }
       },
     );
-    return false;
+    return result;
   }
 
   removeFavouriteBeer = (singleFavouriteBeer) => {
