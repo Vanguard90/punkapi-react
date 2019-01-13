@@ -3,10 +3,10 @@ import React from 'react';
 import {
   ListGroup,
   ListGroupItem,
-  Input,
+  Button,
 } from 'reactstrap';
 
-class BeerList extends React.Component {
+class BeerListFavourite extends React.Component {
   // A component that displays beers in a list format
 
   constructor(props) {
@@ -15,13 +15,13 @@ class BeerList extends React.Component {
   }
 
   renderBeerList() {
-    if (this.props && this.props.beers) {
-      return this.props.beers.map((singleBeer) => {
+    if (this.props && this.props.favouriteBeers) {
+      return this.props.favouriteBeers.map((singleBeer) => {
         const addFavouriteBeer = this.props.addFavouriteBeer;
         return (
           <ListGroupItem key={`${singleBeer.id}`}>
-          <Input onClick={() => addFavouriteBeer(singleBeer)} type="checkbox" />
             {singleBeer.name}
+           <Button size="sm" type="button" color="danger"> Remove </Button>
           </ListGroupItem>
         );
       });
@@ -31,10 +31,9 @@ class BeerList extends React.Component {
   }
 
   render() {
-    const listHeading = this.props.displaysFavourite ? 'Favourite beers' : 'Beers';
     return (
       <div className="text-center">
-        <h3>{listHeading}</h3>
+        <h3>Favourite Beers</h3>
         <ListGroup>
           {
             this.renderBeerList()
@@ -45,4 +44,4 @@ class BeerList extends React.Component {
   }
 }
 
-export default BeerList;
+export default BeerListFavourite;
