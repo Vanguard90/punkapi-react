@@ -12,6 +12,15 @@ class BeerList extends React.Component {
   constructor(props) {
     super(props);
     this.renderBeerList = this.renderBeerList.bind(this);
+    this.isCheckboxesDisabled = this.isCheckboxesDisabled.bind(this);
+  }
+
+  isCheckboxesDisabled() {
+    let result = false;
+    if (this.props.favouriteBeers.length >= 10) {
+      result = true;
+    }
+    return result;
   }
 
   renderBeerList() {
@@ -20,7 +29,7 @@ class BeerList extends React.Component {
         const addFavouriteBeer = this.props.addFavouriteBeer;
         return (
           <ListGroupItem key={`${singleBeer.id}`}>
-          <Input onClick={() => addFavouriteBeer(singleBeer)} type="checkbox" />
+          <Input disabled={this.props.favouriteBeers.length >= 10 ? true : null} onClick={() => addFavouriteBeer(singleBeer)} type="checkbox" />
             {singleBeer.name}
           </ListGroupItem>
         );

@@ -34,15 +34,15 @@ class App extends React.Component {
 
   getRandomBeerFn() {
     punkApiService.getRandomBeer().subscribe(randomBeer => {
-      console.log(!this.isBeerInArray(randomBeer, this.state.allBeers));
-      if (this.state.allBeers.length < 10 && !this.isBeerInArray(randomBeer, this.state.allBeers)) {
+      if (this.state.allBeers.length < 10 && !this.isBeerInArray(randomBeer, this.state.allBeers)
+        && !this.isBeerInArray(randomBeer, this.state.favouriteBeers)) {
         this.setState(prevState => ({ allBeers: [...prevState.allBeers, randomBeer] }));
       }
       if (this.state.allBeers.length < 10) {
         this.getRandomBeerFn();
       }
       // This whole structure above is to make sure you don't get more than 10 beers
-      // and there are no dublicate beers - CHECK AGAIN
+      // at the beers list and there are no duplicate beers
     }, err => {
       console.error(`Error when gettting a random beer! Err: ${err}`);
     });
@@ -50,11 +50,9 @@ class App extends React.Component {
 
   isBeerInArray(beerToCheck, arrayToCheck) {
     let result = false;
-    arrayToCheck.forEach(
+    arrayToCheck.forEach( // Performance can be improved with a for loop here
       singleBeerInState => {
         if (beerToCheck.id === singleBeerInState.id) {
-          console.log(beerToCheck);
-          console.log(singleBeerInState);
           result = true;
         }
       },
@@ -90,7 +88,6 @@ class App extends React.Component {
           break; // We no longer need to finish the loop since we have what we want
         }
       }
-
       this.setState(prevState => ({ favouriteBeers: [...prevState.favouriteBeers, singleBeer] }), this.updateLocalStorage([...this.state.favouriteBeers, singleBeer]));
     }
 
@@ -114,10 +111,18 @@ class App extends React.Component {
         </div>
         <div className="d-flex flex-lg-row flex-md-column justify-content-around align-content-stretch align-items-stretch">
           <div className="d-flex flex-fill justify-content-center">
-            <BeerList addFavouriteBeer={addFavouriteBeer.bind(this)} displaysFavourite={false} beers={this.state.allBeers} />
+            <BeerList
+              addFavouriteBeer={addFavouriteBeer.bind(this)}
+              displaysFavourite={false}
+              beers={this.state.allBeers}
+              favouriteBeers={this.state.favouriteBeers}
+            />
           </div>
           <div className="d-flex flex-fill justify-content-center">
-            <BeerListFavourite removeFavouriteBeer={removeFavouriteBeer.bind(this)} favouriteBeers={this.state.favouriteBeers} />
+            <BeerListFavourite
+              removeFavouriteBeer={removeFavouriteBeer.bind(this)}
+              favouriteBeers={this.state.favouriteBeers}
+            />
           </div>
         </div>
       </main>
