@@ -41,8 +41,14 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   output: {
-    filename: 'index.js',
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
     path: path.join(__dirname, '/build'),
   },
   plugins: [HTMLWebpackPluginConfig],
+  optimization: {
+     splitChunks: {
+       chunks: 'all',
+     },
+   },
 };

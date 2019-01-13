@@ -2,12 +2,12 @@ import React from 'react';
 import { Button } from 'reactstrap';
 import punkApiService from '../service/punkapi-service';
 import BeerList from './BeerList';
-import BeerListFavourite from './BeerListFavourite';
+import FavouriteBeerList from './FavouriteBeerList';
 
 class App extends React.Component {
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       allBeers: [],
       favouriteBeers: [],
@@ -21,28 +21,27 @@ class App extends React.Component {
 
   componentDidMount() {
 
-    // Make surer we have a space in localStorage to persist favourites
+    // Make sure we have a space in localStorage to persist favourites list
     if (localStorage.getItem('favouriteBeers') == null) {
       localStorage.setItem('favouriteBeers', JSON.stringify({}));
     } else {
       // If there is a 'favouriteBeers' key on the localStorage,
-      // We can just get out initial favourites from there
+      // we can just get out initial favourite beers from there
       this.setState(() => ({ favouriteBeers: JSON.parse(localStorage.getItem('favouriteBeers')) }));
     }
-
   }
 
   getRandomBeerFn() {
     punkApiService.getRandomBeer().subscribe(randomBeer => {
       if (this.state.allBeers.length < 10 && !this.isBeerInArray(randomBeer, this.state.allBeers)
         && !this.isBeerInArray(randomBeer, this.state.favouriteBeers)) {
+          // Don't display duplicate beers
         this.setState(prevState => ({ allBeers: [...prevState.allBeers, randomBeer] }));
       }
       if (this.state.allBeers.length < 10) {
+        // List should not contain more than 10 beers
         this.getRandomBeerFn();
       }
-      // This whole structure above is to make sure you don't get more than 10 beers
-      // at the beers list and there are no duplicate beers
     }, err => {
       console.error(`Error when gettting a random beer! Err: ${err}`);
     });
@@ -69,7 +68,7 @@ class App extends React.Component {
         const newState = this.state.favouriteBeers;
         newState.splice(beerToRemoveId, 1);
         this.setState(() => ({ favouriteBeers: newState }), this.updateLocalStorage(newState));
-        break; // We no longer need to finish the loop since we have what we want
+        break; // We no longer need to finish the loop since we have what we want, small performance gain
       }
     }
   }
@@ -77,18 +76,18 @@ class App extends React.Component {
   addFavouriteBeer = (singleBeer) => {
 
     if (!this.isBeerInArray(singleBeer, this.state.favouriteBeers)) {
-      // The beer we're looking at is not in the favourites array
-      let beerToRemoveId;
+      let beerToRemoveIndex;
       for (let i = 0; i < this.state.allBeers.length; i++) {
         if (this.state.allBeers[i].id === singleBeer.id) {
-          beerToRemoveId = i;
+          beerToRemoveIndex = i;
           const newState = this.state.allBeers;
-          newState.splice(beerToRemoveId, 1);
+          newState.splice(beerToRemoveIndex, 1);
           this.setState(() => ({ allBeers: newState }));
-          break; // We no longer need to finish the loop since we have what we want
+          break;
         }
       }
       this.setState(prevState => ({ favouriteBeers: [...prevState.favouriteBeers, singleBeer] }), this.updateLocalStorage([...this.state.favouriteBeers, singleBeer]));
+      // Update localStorage inside the setState since setState is async
     }
 
   }
@@ -99,8 +98,8 @@ class App extends React.Component {
   }
 
   render() {
-    const addFavouriteBeer = this.addFavouriteBeer;
-    const removeFavouriteBeer = this.removeFavouriteBeer;
+    const addFavouriteBeer = this.addFavouriteBeer; // Required for function above
+    const removeFavouriteBeer = this.removeFavouriteBeer; // Required for function above
     return (
       <main className="col">
         <div className="col-sm-12">
@@ -110,7 +109,7 @@ class App extends React.Component {
           </div>
         </div>
         <div className="d-flex flex-lg-row flex-sm-column justify-content-around">
-          <div className="d-flex flex-fill justify-content-center">
+          <div className="col-sm-12 col-lg-6">
             <BeerList
               addFavouriteBeer={addFavouriteBeer.bind(this)}
               displaysFavourite={false}
@@ -118,8 +117,8 @@ class App extends React.Component {
               favouriteBeers={this.state.favouriteBeers}
             />
           </div>
-          <div className="d-flex flex-fill justify-content-center">
-            <BeerListFavourite
+          <div className="col-sm-12 col-lg-6">
+            <FavouriteBeerList
               removeFavouriteBeer={removeFavouriteBeer.bind(this)}
               favouriteBeers={this.state.favouriteBeers}
             />

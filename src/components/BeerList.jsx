@@ -29,7 +29,7 @@ class BeerList extends React.Component {
         const addFavouriteBeer = this.props.addFavouriteBeer;
         return (
           <ListGroupItem key={`${singleBeer.id}`}>
-          <Input disabled={this.props.favouriteBeers.length >= 10 ? true : null} onClick={() => addFavouriteBeer(singleBeer)} type="checkbox" />
+            <Input disabled={this.props.favouriteBeers.length >= 10 ? true : null} onClick={() => addFavouriteBeer(singleBeer)} type="checkbox" />
             {singleBeer.name}
           </ListGroupItem>
         );
@@ -38,10 +38,10 @@ class BeerList extends React.Component {
   }
 
   render() {
-      return (
-      <div className="text-center col-sm-12 col-lg-7">
-        <h3>Beers</h3>
-        <ListGroup>
+    return (
+      <div className="text-center col-sm-12">
+          <h3>Beers</h3>
+        <ListGroup className="col-sm-12 offset-lg-3 col-lg-6">
           {
             this.renderBeerList()
           }

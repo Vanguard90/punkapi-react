@@ -30,9 +30,9 @@ class BeerListFavourite extends React.Component {
 
   render() {
     return (
-      <div className="text-center col-sm-12 col-lg-7">
+      <div className="text-center col-sm-12">
         <h3>Favourite Beers</h3>
-        <ListGroup>
+        <ListGroup className="col-sm-12 offset-lg-3 col-lg-6">
           {
             this.renderBeerList()
           }
