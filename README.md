@@ -7,7 +7,7 @@ punkapi-react-implementation
 npm install
 ```
 
-## To run development environment after installation
+## To run development environment
 
 ```
 npm run start
