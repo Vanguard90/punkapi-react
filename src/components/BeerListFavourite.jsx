@@ -30,7 +30,7 @@ class BeerListFavourite extends React.Component {
 
   render() {
     return (
-      <div className="text-center">
+      <div className="text-center col-sm-12 col-lg-7">
         <h3>Favourite Beers</h3>
         <ListGroup>
           {

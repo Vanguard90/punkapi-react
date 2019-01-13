@@ -109,7 +109,7 @@ class App extends React.Component {
             <Button type="button" color="primary" onClick={this.getRandomBeerFn}> BEER ME! </Button>
           </div>
         </div>
-        <div className="d-flex flex-lg-row flex-md-column justify-content-around align-content-stretch align-items-stretch">
+        <div className="d-flex flex-lg-row flex-sm-column justify-content-around">
           <div className="d-flex flex-fill justify-content-center">
             <BeerList
               addFavouriteBeer={addFavouriteBeer.bind(this)}
