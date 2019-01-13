@@ -16,12 +16,12 @@ class BeerListFavourite extends React.Component {
 
   renderBeerList() {
     if (this.props && this.props.favouriteBeers) {
-      return this.props.favouriteBeers.map((singleBeer) => {
-        const addFavouriteBeer = this.props.addFavouriteBeer;
+      return this.props.favouriteBeers.map((favouriteBeer) => {
+        const removeFavouriteBeer = this.props.removeFavouriteBeer;
         return (
-          <ListGroupItem key={`${singleBeer.id}`}>
-            {singleBeer.name}
-           <Button size="sm" type="button" color="danger"> Remove </Button>
+          <ListGroupItem key={`${favouriteBeer.id}`}>
+            <span className="padding-adjust-right">{favouriteBeer.name}</span>
+           <Button size="sm" type="button" color="danger" onClick={() => removeFavouriteBeer(favouriteBeer)}> Remove </Button>
           </ListGroupItem>
         );
       });

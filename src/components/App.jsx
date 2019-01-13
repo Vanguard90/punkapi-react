@@ -14,7 +14,22 @@ class App extends React.Component {
     };
     this.getRandomBeerFn = this.getRandomBeerFn.bind(this);
     this.addFavouriteBeer = this.addFavouriteBeer.bind(this);
+    this.removeFavouriteBeer = this.removeFavouriteBeer.bind(this);
     this.isBeerInArray = this.isBeerInArray.bind(this);
+    this.updateLocalStorage = this.updateLocalStorage.bind(this);
+  }
+
+  componentDidMount() {
+
+    // Make surer we have a space in localStorage to persist favourites
+    if (localStorage.getItem('favouriteBeers') == null) {
+      localStorage.setItem('favouriteBeers', JSON.stringify({}));
+    } else {
+      // If there is a 'favouriteBeers' key on the localStorage,
+      // We can just get out initial favourites from there
+      this.setState(() => ({ favouriteBeers: JSON.parse(localStorage.getItem('favouriteBeers')) }));
+    }
+
   }
 
   getRandomBeerFn() {
@@ -43,6 +58,20 @@ class App extends React.Component {
     return false;
   }
 
+  removeFavouriteBeer = (singleFavouriteBeer) => {
+
+    let beerToRemoveId;
+    for (let i = 0; i < this.state.favouriteBeers.length; i++) {
+      if (this.state.favouriteBeers[i].id === singleFavouriteBeer.id) {
+        beerToRemoveId = i;
+        const newState = this.state.favouriteBeers;
+        newState.splice(beerToRemoveId, 1);
+        this.setState(() => ({ favouriteBeers: newState }), this.updateLocalStorage(newState));
+        break; // We no longer need to finish the loop since we have what we want
+      }
+    }
+  }
+
   addFavouriteBeer = (singleBeer) => {
 
     if (!this.isBeerInArray(singleBeer, this.state.favouriteBeers)) {
@@ -53,18 +82,24 @@ class App extends React.Component {
           beerToRemoveId = i;
           const newState = this.state.allBeers;
           newState.splice(beerToRemoveId, 1);
-          this.setState(prevState => ({ allBeers: newState }));
+          this.setState(() => ({ allBeers: newState }));
           break; // We no longer need to finish the loop since we have what we want
         }
       }
 
-      this.setState(prevState => ({ favouriteBeers: [...prevState.favouriteBeers, singleBeer] }));
+      this.setState(prevState => ({ favouriteBeers: [...prevState.favouriteBeers, singleBeer] }), this.updateLocalStorage([...this.state.favouriteBeers, singleBeer]));
     }
 
   }
 
+  updateLocalStorage(updatedState) {
+    // Change local storage state for favourites
+    localStorage.setItem('favouriteBeers', JSON.stringify(updatedState));
+  }
+
   render() {
     const addFavouriteBeer = this.addFavouriteBeer;
+    const removeFavouriteBeer = this.removeFavouriteBeer;
     return (
       <main className="col">
         <div className="col-sm-12">
@@ -78,7 +113,7 @@ class App extends React.Component {
             <BeerList addFavouriteBeer={addFavouriteBeer.bind(this)} displaysFavourite={false} beers={this.state.allBeers} />
           </div>
           <div className="d-flex flex-fill justify-content-center">
-            <BeerListFavourite favouriteBeers={this.state.favouriteBeers} />
+            <BeerListFavourite removeFavouriteBeer={removeFavouriteBeer.bind(this)} favouriteBeers={this.state.favouriteBeers} />
           </div>
         </div>
       </main>
