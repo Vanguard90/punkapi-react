@@ -59,7 +59,7 @@ class App extends React.Component {
     return result;
   }
 
-  removeFavouriteBeer = (singleFavouriteBeer) => {
+  removeFavouriteBeer(singleFavouriteBeer) {
 
     let beerToRemoveId;
     for (let i = 0; i < this.state.favouriteBeers.length; i++) {
@@ -73,7 +73,7 @@ class App extends React.Component {
     }
   }
 
-  addFavouriteBeer = (singleBeer) => {
+  addFavouriteBeer(singleBeer) {
 
     if (!this.isBeerInArray(singleBeer, this.state.favouriteBeers)) {
       let beerToRemoveIndex;
@@ -89,7 +89,6 @@ class App extends React.Component {
       this.setState(prevState => ({ favouriteBeers: [...prevState.favouriteBeers, singleBeer] }), this.updateLocalStorage([...this.state.favouriteBeers, singleBeer]));
       // Update localStorage inside the setState since setState is async
     }
-
   }
 
   updateLocalStorage(updatedState) {
@@ -98,8 +97,6 @@ class App extends React.Component {
   }
 
   render() {
-    const addFavouriteBeer = this.addFavouriteBeer; // Required for function above
-    const removeFavouriteBeer = this.removeFavouriteBeer; // Required for function above
     return (
       <main className="col">
         <div className="col-sm-12">
@@ -111,15 +108,14 @@ class App extends React.Component {
         <div className="d-flex flex-lg-row flex-sm-column justify-content-around">
           <div className="col-sm-12 col-lg-6">
             <BeerList
-              addFavouriteBeer={addFavouriteBeer.bind(this)}
-              displaysFavourite={false}
+              addFavouriteBeer={this.addFavouriteBeer}
               beers={this.state.allBeers}
               favouriteBeers={this.state.favouriteBeers}
             />
           </div>
           <div className="col-sm-12 col-lg-6">
             <FavouriteBeerList
-              removeFavouriteBeer={removeFavouriteBeer.bind(this)}
+              removeFavouriteBeer={this.removeFavouriteBeer}
               favouriteBeers={this.state.favouriteBeers}
             />
           </div>

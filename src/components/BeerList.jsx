@@ -12,15 +12,6 @@ class BeerList extends React.Component {
   constructor(props) {
     super(props);
     this.renderBeerList = this.renderBeerList.bind(this);
-    this.isCheckboxesDisabled = this.isCheckboxesDisabled.bind(this);
-  }
-
-  isCheckboxesDisabled() {
-    let result = false;
-    if (this.props.favouriteBeers.length >= 10) {
-      result = true;
-    }
-    return result;
   }
 
   renderBeerList() {
