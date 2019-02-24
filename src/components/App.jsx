@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'reactstrap';
 import punkApiService from '../service/punkapi-service';
 import BeerList from './BeerList';
-import FavouriteBeerList from './FavouriteBeerList';
+import FavouriteBeerList from './BeerListFavourite';
 
 class App extends React.Component {
 
